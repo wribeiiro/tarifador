@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\ItemsController;
 use \App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,17 +15,15 @@ use \App\Http\Controllers\AuthController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/', function () {
-    return view('welcome');
-});
-
-
+Route::get('/', [AuthController::class, 'viewLogin']);
 Route::get('/login', [AuthController::class, 'viewLogin']);
 Route::get('/register', [AuthController::class, 'viewRegister']);
-Route::post('/auth/register', [AuthController::class, 'register'])->name('register');
-Route::post('/auth/login', [AuthController::class, 'auth'])->name('login');
-//Route::post('/auth/logout', [AuthController::class, 'getItems']);
+Route::post('/register', [AuthController::class, 'register'])->name('register');
+Route::post('/login', [AuthController::class, 'auth'])->name('login');
+Route::get('/logout', [AuthController::class, 'logout']);
+
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
 Route::get('/items', [ItemsController::class, 'getItems']);
 Route::post('/items', [ItemsController::class, 'postItem']);
 Route::get('/items/{itemId}', [ItemsController::class, 'getItem']);
